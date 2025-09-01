@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: andreivlaicu/ns-backend
-  tag: main-8          
+  tag: main-9          
   pullPolicy: IfNotPresent
 
 containerPort: 8000
