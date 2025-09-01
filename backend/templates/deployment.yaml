@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    app: backend
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.containerPort }}
+          envFrom:
+            - secretRef:
+                name: api-secrets
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.probes.readinessPath }}
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: {{ .Values.probes.readinessInitialDelaySeconds | default 5 }}
+            periodSeconds: {{ .Values.probes.readinessPeriodSeconds | default 10 }}
+            timeoutSeconds: {{ .Values.probes.readinessTimeoutSeconds | default 2 }}
+
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.probes.livenessPath }}
+              port: {{ .Values.containerPort }}
+            initialDelaySeconds: {{ .Values.probes.livenessInitialDelaySeconds | default 10 }}
+            periodSeconds: {{ .Values.probes.livenessPeriodSeconds | default 20 }}
+            timeoutSeconds: {{ .Values.probes.livenessTimeoutSeconds | default 2 }}
+     
+            
+

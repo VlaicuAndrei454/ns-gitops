@@ -1,0 +1,25 @@
+replicaCount: 1
+
+image:
+  repository: andreivlaicu/ns-backend
+  tag: main-6          
+  pullPolicy: IfNotPresent
+
+containerPort: 8000
+secretName: api-secrets
+
+service:
+  type: ClusterIP
+  port: 80
+
+probes:
+  enabled: true
+  readinessPath: "/api/v1/health"
+  livenessPath: "/api/v1/health"
+  readinessInitialDelaySeconds: 5
+  readinessPeriodSeconds: 10
+  readinessTimeoutSeconds: 2
+  livenessInitialDelaySeconds: 10
+  livenessPeriodSeconds: 20
+  livenessTimeoutSeconds: 2
+
