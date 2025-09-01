@@ -8,7 +8,6 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
-          # more specific path first
           - path: {{ .Values.ingress.apiPath }}
             pathType: Prefix
             backend:

@@ -1,0 +1,42 @@
+# argocd/apps.yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: neatspend-frontend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/VlaicuAndrei454/ns-gitops.git
+    targetRevision: main
+    path: frontend
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: neatspend
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: neatspend-backend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/VlaicuAndrei454/ns-gitops.git
+    targetRevision: main
+    path: backend
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: neatspend
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
