@@ -1,0 +1,26 @@
+replicaCount: 1
+
+image:
+  repository: docker.io/andreivlaicu/ns-frontend
+  tag: "main-4"
+  pullPolicy: IfNotPresent
+
+containerPort: 80
+
+service:
+  type: ClusterIP
+  port: 80
+
+
+ingress:
+  enabled: true
+  className: nginx
+  host: neatspend.local
+  apiPath: /api/v1
+
+  # services to route to
+  backendServiceName: backend
+  backendServicePort: 80
+  frontendServiceName: frontend
+  frontendServicePort: 80
+
