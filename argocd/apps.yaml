@@ -5,16 +5,16 @@ metadata:
   name: neatspend-frontend
   namespace: argocd
   annotations:
-    # Track this image from Docker Hub
+    # Track the FRONTEND image
     argocd-image-updater.argoproj.io/image-list: frontend=andreivlaicu/ns-frontend
-    # Only consider tags that look like main-<number>
-    argocd-image-updater.argoproj.io/backend.allow-tags: regexp:^main-\d+$
-    # Choose the newest allowed tag
-    argocd-image-updater.argoproj.io/backend.update-strategy: latest
-    # Write updates back to Git (your GitOps repo)
+    argocd-image-updater.argoproj.io/frontend.allow-tags: regexp:^main-\d+$
+    argocd-image-updater.argoproj.io/frontend.update-strategy: latest
+
+    # Write updates back to Git
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/git-branch: main
-    # Tell it where your Helm values live
+
+    # Helm values to modify
     argocd-image-updater.argoproj.io/helm.image-name: image.repository
     argocd-image-updater.argoproj.io/helm.image-tag: image.tag
 spec:
@@ -39,11 +39,16 @@ metadata:
   name: neatspend-backend
   namespace: argocd
   annotations:
+    # Track the BACKEND image
     argocd-image-updater.argoproj.io/image-list: backend=andreivlaicu/ns-backend
-    argocd-image-updater.argoproj.io/frontend.allow-tags: regexp:^main-\d+$
-    argocd-image-updater.argoproj.io/frontend.update-strategy: latest
+    argocd-image-updater.argoproj.io/backend.allow-tags: regexp:^main-\d+$
+    argocd-image-updater.argoproj.io/backend.update-strategy: latest
+
+    # Write updates back to Git
     argocd-image-updater.argoproj.io/write-back-method: git
     argocd-image-updater.argoproj.io/git-branch: main
+
+    # Helm values to modify
     argocd-image-updater.argoproj.io/helm.image-name: image.repository
     argocd-image-updater.argoproj.io/helm.image-tag: image.tag
 spec:
