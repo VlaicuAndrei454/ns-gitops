@@ -4,6 +4,19 @@ kind: Application
 metadata:
   name: neatspend-frontend
   namespace: argocd
+  annotations:
+    # Track this image from Docker Hub
+    argocd-image-updater.argoproj.io/image-list: backend=andreivlaicu/ns-backend
+    # Only consider tags that look like main-<number>
+    argocd-image-updater.argoproj.io/backend.allow-tags: regexp:^main-\d+$
+    # Choose the newest allowed tag
+    argocd-image-updater.argoproj.io/backend.update-strategy: latest
+    # Write updates back to Git (your GitOps repo)
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: main
+    # Tell it where your Helm values live
+    argocd-image-updater.argoproj.io/helm.image-name: image.repository
+    argocd-image-updater.argoproj.io/helm.image-tag: image.tag
 spec:
   project: default
   source:
@@ -25,6 +38,14 @@ kind: Application
 metadata:
   name: neatspend-backend
   namespace: argocd
+  annotations:
+    argocd-image-updater.argoproj.io/image-list: frontend=andreivlaicu/ns-frontend
+    argocd-image-updater.argoproj.io/frontend.allow-tags: regexp:^main-\d+$
+    argocd-image-updater.argoproj.io/frontend.update-strategy: latest
+    argocd-image-updater.argoproj.io/write-back-method: git
+    argocd-image-updater.argoproj.io/git-branch: main
+    argocd-image-updater.argoproj.io/helm.image-name: image.repository
+    argocd-image-updater.argoproj.io/helm.image-tag: image.tag
 spec:
   project: default
   source:
