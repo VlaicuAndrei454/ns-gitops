@@ -2,7 +2,7 @@ replicaCount: 1
 
 image:
   repository: docker.io/andreivlaicu/ns-frontend
-  tag: "main-9"
+  tag: main-9
   pullPolicy: IfNotPresent
 
 containerPort: 80

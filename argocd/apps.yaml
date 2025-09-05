@@ -8,7 +8,10 @@ metadata:
     # Track the FRONTEND image
     argocd-image-updater.argoproj.io/image-list: frontend=andreivlaicu/ns-frontend
     argocd-image-updater.argoproj.io/frontend.allow-tags: regexp:^main-\d+$
-    argocd-image-updater.argoproj.io/frontend.update-strategy: latest
+    argocd-image-updater.argoproj.io/frontend.update-strategy: newest-build
+
+     # Pin registry mapping for the alias (matches the Secret below)
+
 
     # Write updates back to Git
     argocd-image-updater.argoproj.io/write-back-method: git
@@ -20,7 +23,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/VlaicuAndrei454/ns-gitops.git
+    repoURL: ssh://git@github.com/VlaicuAndrei454/ns-gitops.git
     targetRevision: main
     path: frontend
   destination:
@@ -42,7 +45,9 @@ metadata:
     # Track the BACKEND image
     argocd-image-updater.argoproj.io/image-list: backend=andreivlaicu/ns-backend
     argocd-image-updater.argoproj.io/backend.allow-tags: regexp:^main-\d+$
-    argocd-image-updater.argoproj.io/backend.update-strategy: latest
+    argocd-image-updater.argoproj.io/backend.update-strategy: newest-build
+
+ 
 
     # Write updates back to Git
     argocd-image-updater.argoproj.io/write-back-method: git
@@ -54,7 +59,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/VlaicuAndrei454/ns-gitops.git
+    repoURL: ssh://git@github.com/VlaicuAndrei454/ns-gitops.git
     targetRevision: main
     path: backend
   destination:
